@@ -1,0 +1,44 @@
+package BuffA
+
+import Buff
+import PrintingHelper
+
+class BuffA extends Buff
+	override function getTimeout() returns real
+		return 1
+	
+	override function onStart()
+		int buffCount = Buff.countAllWhereIsTarget(this.getTarget()) 
+	
+		print("Applying!")
+		
+		// If target has more than 1 buff and lower than 3, add another one!
+		if (buffCount > 1 and buffCount < 3)
+			print("Applying extra buff!")
+			
+			new BuffA()
+					..setCaster(this.getCaster())
+					..apply(this.getTarget(), 3)
+	
+	override function onFinish() returns boolean
+		print("Ending")
+		return true
+		
+	override function onTimeout()
+		print("Making some damage")
+		this.getCaster().damageTarget(this.getTarget(), 5)
+
+init
+	unit caster = CreateUnit(GetLocalPlayer(), 'hfoo', 0, 0, 0)
+	unit target = CreateUnit(GetLocalPlayer(), 'Hpal', 0, 0, 0)
+	
+	Buff buffOne = new BuffA()
+	Buff buffTwo = new BuffA()
+	
+	buffOne.setCaster(caster)
+	buffOne.apply(target, 5)
+	
+	buffTwo.setCaster(caster)
+	buffTwo.apply(target, 10)
+	
+	print("Target has " + Buff.countAllWhereIsTarget(target).toString())
