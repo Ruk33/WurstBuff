@@ -15,6 +15,10 @@ import OnUnitEnterLeave
  *		override function getTimeout() returns real
  *			return 1
  *		
+ *		override function getTimeout() returns real
+ *			return 1
+ *
+ *		// every 1 second, do 50 damage
  *		override function onTimeout()
  *			this.getCaster().damageTarget(this.getTarget(), 50)
  *		
